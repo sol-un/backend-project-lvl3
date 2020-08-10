@@ -1,0 +1,39 @@
+{
+  "name": "backend-project-lvl3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "page-loader": "bin/commander.js"
+  },
+  "scripts": {
+    "test": "npx -n --experimental-vm-modules jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sol-un/backend-project-lvl3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sol-un/backend-project-lvl3/issues"
+  },
+  "homepage": "https://github.com/sol-un/backend-project-lvl3#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@jest/globals": "^26.2.0",
+    "babel-jest": "^26.2.2",
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "jest": "^26.2.2",
+    "nock": "^13.0.3"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "commander": "^6.0.0"
+  }
+}
