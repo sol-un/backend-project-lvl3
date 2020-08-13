@@ -12,12 +12,12 @@ beforeEach(async () => {
 });
 
 test('Page loader', async () => {
-  nock('test.com')
+  nock(/test\.com/)
     .get('/testfile')
-    .reply(200, { data: 'test page content' });
+    .reply(200, 'test page content');
 
   await pageLoader('https://test.com/testfile', tempDir);
-  const contents = await fs.readFile(`${tempDir}/test-com-testfile.html`, 'utf8');
+  const contents = await fs.readFile(path.join(tempDir, 'test-com-testfile.html'), 'utf8');
 
   expect(contents).toEqual('test page content');
 });

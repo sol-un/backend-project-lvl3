@@ -35,5 +35,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "commander": "^6.0.0"
+  },
+  "jest": {
+  "testEnvironment": "node",
+  "transform": {}
   }
 }
