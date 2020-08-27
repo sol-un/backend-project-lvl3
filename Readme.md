@@ -5,9 +5,13 @@
 
 #### Description
 
-_Page Loader_ is a CLI utility that downloads web pages, similarly to how browsers can save website pages for off-line viewing.
+_Page Loader_ is a CLI utility that implements on a standalone basis a feature most browsers have, to save website pages for off-line viewing.
 
 #### Features
 
 - a custom download path can be set using the ```-o``` flag;
-- the utility downloads all assets a page references and rewires the page so that the local copies of those assets are used when rendering.
+- all assets referenced on a page are downloaded, and their local copies are used for rendering.
+
+#### Demo
+
+[![asciicast](https://asciinema.org/a/XpICw3N8zOmxzQGru0rAuZgG2.svg)](https://asciinema.org/a/XpICw3N8zOmxzQGru0rAuZgG2)

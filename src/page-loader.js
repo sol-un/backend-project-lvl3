@@ -17,7 +17,9 @@ const dispatcherByTagName = {
   img: () => 'src',
   link: () => 'href',
 };
+
 const log = debug('page-loader');
+
 export default (link, dest = process.cwd()) => {
   const url = new URL(link);
   const filename = formatPath(url.hostname, url.pathname, '.html');
@@ -72,8 +74,10 @@ export default (link, dest = process.cwd()) => {
         }),
       }));
       const tasks = new Listr(taskArr, { concurrent: true });
-      return tasks.run();
+      return tasks;
     })
+    .then((tasks) => tasks.run())
+    .then(() => `Page downloaded as ${filename}`)
     .catch((error) => {
       const message = `${error.message}. Failed to load '${error.config.url}`;
       log(`failed: ${message}`);

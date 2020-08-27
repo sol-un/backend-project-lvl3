@@ -10,6 +10,13 @@ program
   .option('-o, --output [path]', 'specify the download directory; working directory used by default')
   .arguments('<address> [output]')
   .action((address) => {
-    pageLoader(address, program.output);
+    try {
+      pageLoader(address, program.output)
+        .then((message) => console.log(message))
+        .then(() => process.exit(0));
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
+    }
   })
   .parse(process.argv);
