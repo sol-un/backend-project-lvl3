@@ -2,13 +2,12 @@ import { test, expect } from '@jest/globals';
 import path from 'path';
 import { promises as fs } from 'fs';
 import os from 'os';
-import nock from 'nock';
 import cheerio from 'cheerio';
-import debug from 'debug';
+import nock from 'nock';
 import pageLoader from '../index.js';
+import { log } from '../src/utils.js';
 
 const getFixturePath = (filepath) => path.join(path.resolve(), '__fixtures__', filepath);
-const log = debug('page-loader');
 let tempDir;
 
 beforeEach(async () => {
@@ -32,8 +31,8 @@ test('Page loader: normal operation', async () => {
   const actualAssets = await fs.readdir(path.join(tempDir, 'test-com-test-page_files'));
   const expectedAssets = await fs.readdir(getFixturePath(path.join('after', 'test-com-test-page_files')));
 
-  expect(cheerio.load(actualPage).html()).toBe(cheerio.load(expectedPage).html());
-  expect(actualAssets).toStrictEqual(expectedAssets);
+  await expect(cheerio.load(actualPage).html()).toBe(cheerio.load(expectedPage).html());
+  await expect(actualAssets).toStrictEqual(expectedAssets);
 });
 
 test('Page loader: network errors', async () => {
@@ -59,17 +58,10 @@ test('Page loader: file system errors', async () => {
   nock(/test\.com/)
     .persist()
     .get('/test_page')
-    .replyWithFile(200, getFixturePath(path.join('before', 'test_page.html')))
-    .get('/styles.css')
-    .replyWithFile(200, getFixturePath(path.join('before', 'styles.css')))
-    .get('/assets/placeholder_image.png')
-    .replyWithFile(200, getFixturePath(path.join('before', 'assets', 'placeholder_image.png')))
-    .get('/assets/script.js')
-    .replyWithFile(200, getFixturePath(path.join('before', 'assets', 'script.js')));
+    .replyWithFile(200, getFixturePath(path.join('before', 'test_page.html')));
 
   const readOnlyPath = path.join(tempDir, 'read-only');
   await fs.mkdir(readOnlyPath, 444);
   await expect(pageLoader('https://test.com/test_page', readOnlyPath)).rejects.toThrow();
-  tempDir = 'nothing';
-  await expect(pageLoader('https://test.com/test_page', tempDir)).rejects.toThrow();
+  await expect(pageLoader('https://test.com/test_page', 'noexist')).rejects.toThrow();
 });
