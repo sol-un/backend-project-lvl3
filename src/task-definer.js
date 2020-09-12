@@ -9,5 +9,5 @@ export default (item) => ({
     method: 'get',
     responseType: 'arraybuffer',
   }).then((response) => fs.writeFile(item.path, response.data)
-    .then(() => log(`saved file ${item.path}`))),
+    .then(() => log(`saved file at ${item.link}`))),
 });

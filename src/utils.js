@@ -2,7 +2,7 @@ import path from 'path';
 import debug from 'debug';
 
 const formatPath = (base, name, postfix) => path.join(base, name)
-  .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+  .match(/[A-Z]{2,}(?=[A-Za-z]+\d*|\b)|[A-Z]?[a-z]+\d*|[A-Z]|\d+/g)
   .map((char) => char.toLowerCase())
   .join('-')
   .concat(postfix);
