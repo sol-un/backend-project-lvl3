@@ -3,7 +3,7 @@ import Listr from 'listr';
 import process from 'process';
 import axios from 'axios';
 import path from 'path';
-import scrape from './page-scraper.js';
+import parse from './page-parser.js';
 import defineTask from './task-definer.js';
 import { formatPath, log } from './utils.js';
 
@@ -19,15 +19,21 @@ export default (link, dest = process.cwd()) => {
     .then((response) => {
       log(`received response from ${link}`);
       let contents;
-      [contents, assetsData] = scrape(response.data, url, dirpath, dirname);
-      return fs.writeFile(filepath, contents).then(() => log(`saved page at ${link}.`));
+      [contents, assetsData] = parse(response.data, url, dirpath, dirname);
+      return fs.writeFile(filepath, contents);
     })
-    .then(() => fs.mkdir(dirpath))
+    .then(() => {
+      log(`saved page at ${link}.`);
+      return fs.mkdir(dirpath);
+    })
     .then(() => {
       const tasks = assetsData.map(defineTask);
       const runner = new Listr(tasks, { concurrent: true, exitOnError: false });
       return runner.run();
     })
-    .then(() => Promise.resolve(filename))
-    .catch((error) => Promise.reject(error));
+    .then(() => filename)
+    .catch((error) => {
+      log(`failed: ${error.message}`);
+      throw error;
+    });
 };

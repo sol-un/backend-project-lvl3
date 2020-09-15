@@ -7,6 +7,6 @@ const formatPath = (base, name, postfix) => path.join(base, name)
   .join('-')
   .concat(postfix);
 
-const log = (message) => debug('page-loader')(message);
+const log = debug('page-loader');
 
 export { formatPath, log };

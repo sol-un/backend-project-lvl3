@@ -12,11 +12,10 @@ export default (contents, url, dirpath, dirname) => {
   const $ = cheerio.load(contents);
   const assetsData = [];
   $('img, script, link')
-    .filter((_i, tag) => $(tag).attr('src') || $(tag).attr('href'))
     .each((_i, tag) => {
       const attrName = dispatcherByTagName[tag.tagName](tag);
       const attrValue = $(tag).attr(attrName);
-      if (attrValue.includes(url.hostname) || !attrValue.includes('http')) {
+      if (attrValue && (attrValue.includes(url.hostname) || !attrValue.includes('http'))) {
         const parsedPath = path.parse(attrValue);
         const assetName = formatPath(parsedPath.dir, parsedPath.name, parsedPath.ext);
         const assetObj = {
