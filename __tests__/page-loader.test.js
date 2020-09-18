@@ -50,7 +50,7 @@ test('Page loader: network errors', async () => {
     .reply(404);
 
   await expect(pageLoader('https://test.com/test_page404', tempDir)).rejects.toThrow('404');
-  await expect(pageLoader('https://test.com/test_page', tempDir)).rejects.toThrow(/Something went wrong.*missing some assets/);
+  await expect(pageLoader('https://test.com/test_page', tempDir)).rejects.toThrow('Something went wrong.');
 });
 
 test('Page loader: file system errors', async () => {
