@@ -16,10 +16,13 @@ export default (contents, url, dirpath, dirname) => {
       const attrName = dispatcherByTagName[tag.tagName](tag);
       const attrValue = $(tag).attr(attrName);
       if (attrValue && (attrValue.includes(url.hostname) || !attrValue.includes('http'))) {
-        const parsedPath = path.parse(attrValue);
-        const assetName = formatPath(parsedPath.dir, parsedPath.name, parsedPath.ext);
+        const {
+          dir, base, name, ext,
+        } = path.parse(attrValue);
+        const assetName = formatPath(dir, name, ext);
         const assetObj = {
-          link: new URL(attrValue, url.origin).toString(),
+          base,
+          link: new URL(attrValue, url.href).toString(),
           path: path.join(dirpath, assetName),
         };
         assetsData.push(assetObj);

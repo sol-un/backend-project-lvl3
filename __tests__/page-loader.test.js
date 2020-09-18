@@ -49,8 +49,8 @@ test('Page loader: network errors', async () => {
     .get('/assets/script.js')
     .reply(404);
 
-  await expect(pageLoader('https://test.com/test_page404', tempDir)).rejects.toThrow();
-  await expect(pageLoader('https://test.com/test_page', tempDir)).rejects.toThrow();
+  await expect(pageLoader('https://test.com/test_page404', tempDir)).rejects.toThrow('404');
+  await expect(pageLoader('https://test.com/test_page', tempDir)).rejects.toThrow(/Something went wrong.*missing some assets/);
 });
 
 test('Page loader: file system errors', async () => {
@@ -62,6 +62,6 @@ test('Page loader: file system errors', async () => {
 
   const readOnlyPath = path.join(tempDir, 'read-only');
   await fs.mkdir(readOnlyPath, 444);
-  await expect(pageLoader('https://test.com/test_page', readOnlyPath)).rejects.toThrow();
-  await expect(pageLoader('https://test.com/test_page', 'noexist')).rejects.toThrow();
+  await expect(pageLoader('https://test.com/test_page', readOnlyPath)).rejects.toThrow('EACCES');
+  await expect(pageLoader('https://test.com/test_page', 'noexist')).rejects.toThrow('ENOENT');
 });

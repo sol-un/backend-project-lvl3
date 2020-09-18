@@ -7,12 +7,16 @@ plugins:
 
 # https://eslint.org/docs/user-guide/configuring#specifying-environments
 env:
-  node:               true
+  node: true
 
 extends:
   - 'airbnb-base'
   - 'plugin:jest/recommended'
 
+parserOptions:
+  ecmaVersion: 2020
+
 rules:
-  no-console:         0
-  import/extensions:  0
+  no-console: 0
+  import/extensions: 0
+  linebreak-style: 0
